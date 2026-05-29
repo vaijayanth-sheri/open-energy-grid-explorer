@@ -1,0 +1,968 @@
+{
+  "assets": [
+    {
+      "id": "gen_solar_1",
+      "type": "generator",
+      "subtype": "solar",
+      "voltage_level": "HV",
+      "name": "Solar Farm Munich",
+      "coordinates": {
+        "lat": 48.2450,
+        "lng": 11.4200
+      },
+      "metadata": {
+        "capacity_mw": 50,
+        "fuel_type": "solar",
+        "voltage_kv": 110,
+        "status": "online",
+        "description": "50 MW photovoltaic farm, output varies with time-of-day"
+      }
+    },
+    {
+      "id": "gen_gas_1",
+      "type": "generator",
+      "subtype": "ccgt",
+      "voltage_level": "HV",
+      "name": "CCGT Munich",
+      "coordinates": {
+        "lat": 48.1950,
+        "lng": 11.4800
+      },
+      "metadata": {
+        "capacity_mw": 150,
+        "fuel_type": "natural_gas",
+        "voltage_kv": 110,
+        "status": "online",
+        "description": "150 MW combined cycle gas turbine, stable baseload output"
+      }
+    },
+    {
+      "id": "line_hv_1",
+      "type": "transmission_line_hv",
+      "subtype": "hv",
+      "voltage_level": "HV",
+      "name": "HV Line Solar→SubA",
+      "coordinates": {
+        "lat": 48.2075,
+        "lng": 11.4600
+      },
+      "metadata": {
+        "voltage_kv": 110,
+        "length_km": 8.5,
+        "capacity_mw": 80,
+        "from_asset": "gen_solar_1",
+        "to_asset": "sub_hv_mv_1",
+        "description": "High voltage transmission from Solar Farm to Substation A"
+      },
+      "path": [
+        {
+          "lat": 48.2450,
+          "lng": 11.4200
+        },
+        {
+          "lat": 48.1700,
+          "lng": 11.5000
+        }
+      ]
+    },
+    {
+      "id": "line_hv_2",
+      "type": "transmission_line_hv",
+      "subtype": "hv",
+      "voltage_level": "HV",
+      "name": "HV Line Gas→SubA",
+      "coordinates": {
+        "lat": 48.1825,
+        "lng": 11.4900
+      },
+      "metadata": {
+        "voltage_kv": 110,
+        "length_km": 5.2,
+        "capacity_mw": 200,
+        "from_asset": "gen_gas_1",
+        "to_asset": "sub_hv_mv_1",
+        "description": "High voltage transmission from CCGT to Substation A"
+      },
+      "path": [
+        {
+          "lat": 48.1950,
+          "lng": 11.4800
+        },
+        {
+          "lat": 48.1700,
+          "lng": 11.5000
+        }
+      ]
+    },
+    {
+      "id": "line_hv_3",
+      "type": "transmission_line_hv",
+      "subtype": "hv",
+      "voltage_level": "HV",
+      "name": "HV Line SubA→SubB",
+      "coordinates": {
+        "lat": 48.1550,
+        "lng": 11.5400
+      },
+      "metadata": {
+        "voltage_kv": 110,
+        "length_km": 6.8,
+        "capacity_mw": 120,
+        "from_asset": "sub_hv_mv_1",
+        "to_asset": "sub_hv_mv_2",
+        "description": "High voltage interconnection between Substation A and B"
+      },
+      "path": [
+        {
+          "lat": 48.1700,
+          "lng": 11.5000
+        },
+        {
+          "lat": 48.1400,
+          "lng": 11.5800
+        }
+      ]
+    },
+    {
+      "id": "sub_hv_mv_1",
+      "type": "substation_hv_mv",
+      "subtype": "step_down",
+      "voltage_level": "HV",
+      "name": "Substation A (HV/MV)",
+      "coordinates": {
+        "lat": 48.1700,
+        "lng": 11.5000
+      },
+      "metadata": {
+        "input_voltage_kv": 110,
+        "output_voltage_kv": 11,
+        "capacity_mva": 200,
+        "status": "online",
+        "description": "Primary substation stepping down 110 kV to 11 kV for MV distribution"
+      }
+    },
+    {
+      "id": "sub_hv_mv_2",
+      "type": "substation_hv_mv",
+      "subtype": "step_down",
+      "voltage_level": "HV",
+      "name": "Substation B (HV/MV)",
+      "coordinates": {
+        "lat": 48.1400,
+        "lng": 11.5800
+      },
+      "metadata": {
+        "input_voltage_kv": 110,
+        "output_voltage_kv": 11,
+        "capacity_mva": 100,
+        "status": "online",
+        "description": "Secondary substation stepping down 110 kV to 11 kV for southern consumers"
+      }
+    },
+    {
+      "id": "feeder_mv_1",
+      "type": "feeder_mv",
+      "subtype": "mv",
+      "voltage_level": "MV",
+      "name": "MV Feeder A-1 (Hospital)",
+      "coordinates": {
+        "lat": 48.1660,
+        "lng": 11.5080
+      },
+      "metadata": {
+        "voltage_kv": 11,
+        "length_km": 2.8,
+        "capacity_mw": 25,
+        "from_asset": "sub_hv_mv_1",
+        "topology": "radial",
+        "description": "MV feeder from Substation A serving hospital district"
+      },
+      "path": [
+        {
+          "lat": 48.1700,
+          "lng": 11.5000
+        },
+        {
+          "lat": 48.1640,
+          "lng": 11.5100
+        }
+      ]
+    },
+    {
+      "id": "feeder_mv_2",
+      "type": "feeder_mv",
+      "subtype": "mv",
+      "voltage_level": "MV",
+      "name": "MV Feeder A-2 (Industrial)",
+      "coordinates": {
+        "lat": 48.1740,
+        "lng": 11.5150
+      },
+      "metadata": {
+        "voltage_kv": 11,
+        "length_km": 3.2,
+        "capacity_mw": 30,
+        "from_asset": "sub_hv_mv_1",
+        "topology": "radial",
+        "description": "MV feeder from Substation A serving data center and Schwabing"
+      },
+      "path": [
+        {
+          "lat": 48.1700,
+          "lng": 11.5000
+        },
+        {
+          "lat": 48.1760,
+          "lng": 11.5200
+        }
+      ]
+    },
+    {
+      "id": "feeder_mv_3",
+      "type": "feeder_mv",
+      "subtype": "mv",
+      "voltage_level": "MV",
+      "name": "MV Feeder A-3 (Ring)",
+      "coordinates": {
+        "lat": 48.1600,
+        "lng": 11.5450
+      },
+      "metadata": {
+        "voltage_kv": 11,
+        "length_km": 5.1,
+        "capacity_mw": 20,
+        "from_asset": "sub_hv_mv_1",
+        "topology": "ring",
+        "description": "MV ring feeder from Substation A serving Maxvorstadt residential"
+      },
+      "path": [
+        {
+          "lat": 48.1700,
+          "lng": 11.5000
+        },
+        {
+          "lat": 48.1620,
+          "lng": 11.5400
+        },
+        {
+          "lat": 48.1580,
+          "lng": 11.5600
+        }
+      ]
+    },
+    {
+      "id": "feeder_mv_4",
+      "type": "feeder_mv",
+      "subtype": "mv",
+      "voltage_level": "MV",
+      "name": "MV Feeder B-1 (South)",
+      "coordinates": {
+        "lat": 48.1340,
+        "lng": 11.5650
+      },
+      "metadata": {
+        "voltage_kv": 11,
+        "length_km": 3.6,
+        "capacity_mw": 20,
+        "from_asset": "sub_hv_mv_2",
+        "topology": "radial",
+        "description": "MV feeder from Substation B serving Sendling and Pasing"
+      },
+      "path": [
+        {
+          "lat": 48.1400,
+          "lng": 11.5800
+        },
+        {
+          "lat": 48.1300,
+          "lng": 11.5500
+        }
+      ]
+    },
+    {
+      "id": "feeder_mv_5",
+      "type": "feeder_mv",
+      "subtype": "mv",
+      "voltage_level": "MV",
+      "name": "MV Feeder B-2 (East)",
+      "coordinates": {
+        "lat": 48.1370,
+        "lng": 11.6000
+      },
+      "metadata": {
+        "voltage_kv": 11,
+        "length_km": 3.0,
+        "capacity_mw": 20,
+        "from_asset": "sub_hv_mv_2",
+        "topology": "radial",
+        "description": "MV feeder from Substation B serving Bogenhausen and Haidhausen"
+      },
+      "path": [
+        {
+          "lat": 48.1400,
+          "lng": 11.5800
+        },
+        {
+          "lat": 48.1350,
+          "lng": 11.6100
+        }
+      ]
+    },
+    {
+      "id": "rmu_1",
+      "type": "rmu",
+      "subtype": "switch",
+      "voltage_level": "MV",
+      "name": "RMU 1 (Hospital)",
+      "coordinates": {
+        "lat": 48.1620,
+        "lng": 11.5150
+      },
+      "metadata": {
+        "voltage_kv": 11,
+        "state": "closed",
+        "description": "Ring main unit on hospital feeder — switching node"
+      }
+    },
+    {
+      "id": "rmu_2",
+      "type": "rmu",
+      "subtype": "switch",
+      "voltage_level": "MV",
+      "name": "RMU 2 (Data Center)",
+      "coordinates": {
+        "lat": 48.1780,
+        "lng": 11.5300
+      },
+      "metadata": {
+        "voltage_kv": 11,
+        "state": "closed",
+        "description": "Ring main unit on industrial feeder — data center branch"
+      }
+    },
+    {
+      "id": "rmu_3",
+      "type": "rmu",
+      "subtype": "switch",
+      "voltage_level": "MV",
+      "name": "RMU 3 (Schwabing)",
+      "coordinates": {
+        "lat": 48.1720,
+        "lng": 11.5450
+      },
+      "metadata": {
+        "voltage_kv": 11,
+        "state": "closed",
+        "description": "Ring main unit on industrial feeder — Schwabing residential branch"
+      }
+    },
+    {
+      "id": "rmu_4",
+      "type": "rmu",
+      "subtype": "switch",
+      "voltage_level": "MV",
+      "name": "RMU 4 (Maxvorstadt A)",
+      "coordinates": {
+        "lat": 48.1590,
+        "lng": 11.5550
+      },
+      "metadata": {
+        "voltage_kv": 11,
+        "state": "closed",
+        "description": "Ring main unit on ring feeder — Maxvorstadt primary branch"
+      }
+    },
+    {
+      "id": "rmu_5",
+      "type": "rmu",
+      "subtype": "switch",
+      "voltage_level": "MV",
+      "name": "RMU 5 (Maxvorstadt NOP)",
+      "coordinates": {
+        "lat": 48.1570,
+        "lng": 11.5700
+      },
+      "metadata": {
+        "voltage_kv": 11,
+        "state": "open",
+        "description": "Normally Open Point — ring topology reserve path for Maxvorstadt"
+      }
+    },
+    {
+      "id": "rmu_6",
+      "type": "rmu",
+      "subtype": "switch",
+      "voltage_level": "MV",
+      "name": "RMU 6 (Sendling)",
+      "coordinates": {
+        "lat": 48.1280,
+        "lng": 11.5450
+      },
+      "metadata": {
+        "voltage_kv": 11,
+        "state": "closed",
+        "description": "Ring main unit on south feeder — Sendling and Pasing"
+      }
+    },
+    {
+      "id": "rmu_7",
+      "type": "rmu",
+      "subtype": "switch",
+      "voltage_level": "MV",
+      "name": "RMU 7 (Bogenhausen)",
+      "coordinates": {
+        "lat": 48.1330,
+        "lng": 11.6150
+      },
+      "metadata": {
+        "voltage_kv": 11,
+        "state": "closed",
+        "description": "Ring main unit on east feeder — Bogenhausen and Haidhausen"
+      }
+    },
+    {
+      "id": "trafo_1",
+      "type": "transformer_mv_lv",
+      "subtype": "distribution",
+      "voltage_level": "MV",
+      "name": "Transformer 1 (Hospital)",
+      "coordinates": {
+        "lat": 48.1605,
+        "lng": 11.5200
+      },
+      "metadata": {
+        "input_voltage_kv": 11,
+        "output_voltage_kv": 0.4,
+        "capacity_kva": 1000,
+        "status": "online",
+        "description": "MV/LV distribution transformer for hospital district"
+      }
+    },
+    {
+      "id": "trafo_2",
+      "type": "transformer_mv_lv",
+      "subtype": "distribution",
+      "voltage_level": "MV",
+      "name": "Transformer 2 (Industrial+Schwabing)",
+      "coordinates": {
+        "lat": 48.1750,
+        "lng": 11.5400
+      },
+      "metadata": {
+        "input_voltage_kv": 11,
+        "output_voltage_kv": 0.4,
+        "capacity_kva": 1600,
+        "status": "online",
+        "description": "MV/LV distribution transformer for data center and Schwabing"
+      }
+    },
+    {
+      "id": "trafo_3",
+      "type": "transformer_mv_lv",
+      "subtype": "distribution",
+      "voltage_level": "MV",
+      "name": "Transformer 3 (Maxvorstadt)",
+      "coordinates": {
+        "lat": 48.1575,
+        "lng": 11.5630
+      },
+      "metadata": {
+        "input_voltage_kv": 11,
+        "output_voltage_kv": 0.4,
+        "capacity_kva": 800,
+        "status": "online",
+        "description": "MV/LV distribution transformer for Maxvorstadt residential"
+      }
+    },
+    {
+      "id": "trafo_4",
+      "type": "transformer_mv_lv",
+      "subtype": "distribution",
+      "voltage_level": "MV",
+      "name": "Transformer 4 (Sendling/Pasing)",
+      "coordinates": {
+        "lat": 48.1260,
+        "lng": 11.5400
+      },
+      "metadata": {
+        "input_voltage_kv": 11,
+        "output_voltage_kv": 0.4,
+        "capacity_kva": 800,
+        "status": "online",
+        "description": "MV/LV distribution transformer for Sendling and Pasing"
+      }
+    },
+    {
+      "id": "trafo_5",
+      "type": "transformer_mv_lv",
+      "subtype": "distribution",
+      "voltage_level": "MV",
+      "name": "Transformer 5 (Bogenhausen/Haidhausen)",
+      "coordinates": {
+        "lat": 48.1310,
+        "lng": 11.6200
+      },
+      "metadata": {
+        "input_voltage_kv": 11,
+        "output_voltage_kv": 0.4,
+        "capacity_kva": 800,
+        "status": "online",
+        "description": "MV/LV distribution transformer for Bogenhausen and Haidhausen"
+      }
+    },
+    {
+      "id": "feeder_lv_1",
+      "type": "feeder_lv",
+      "subtype": "lv",
+      "voltage_level": "LV",
+      "name": "LV Feeder 1 (Hospital)",
+      "coordinates": {
+        "lat": 48.1600,
+        "lng": 11.5220
+      },
+      "metadata": {
+        "voltage_kv": 0.4,
+        "length_km": 0.5,
+        "capacity_kw": 500,
+        "from_asset": "trafo_1",
+        "description": "Low voltage feeder to Munich General Hospital"
+      },
+      "path": [
+        {
+          "lat": 48.1605,
+          "lng": 11.5200
+        },
+        {
+          "lat": 48.1595,
+          "lng": 11.5250
+        }
+      ]
+    },
+    {
+      "id": "feeder_lv_2",
+      "type": "feeder_lv",
+      "subtype": "lv",
+      "voltage_level": "LV",
+      "name": "LV Feeder 2 (Industrial+Schwabing)",
+      "coordinates": {
+        "lat": 48.1740,
+        "lng": 11.5450
+      },
+      "metadata": {
+        "voltage_kv": 0.4,
+        "length_km": 0.8,
+        "capacity_kw": 800,
+        "from_asset": "trafo_2",
+        "description": "Low voltage feeder to Data Center and Schwabing residential"
+      },
+      "path": [
+        {
+          "lat": 48.1750,
+          "lng": 11.5400
+        },
+        {
+          "lat": 48.1730,
+          "lng": 11.5500
+        }
+      ]
+    },
+    {
+      "id": "feeder_lv_3",
+      "type": "feeder_lv",
+      "subtype": "lv",
+      "voltage_level": "LV",
+      "name": "LV Feeder 3 (Maxvorstadt)",
+      "coordinates": {
+        "lat": 48.1570,
+        "lng": 11.5750
+      },
+      "metadata": {
+        "voltage_kv": 0.4,
+        "length_km": 0.6,
+        "capacity_kw": 400,
+        "from_asset": "trafo_3",
+        "description": "Low voltage feeder to Maxvorstadt residential clusters"
+      },
+      "path": [
+        {
+          "lat": 48.1575,
+          "lng": 11.5630
+        },
+        {
+          "lat": 48.1570,
+          "lng": 11.5800
+        }
+      ]
+    },
+    {
+      "id": "feeder_lv_4",
+      "type": "feeder_lv",
+      "subtype": "lv",
+      "voltage_level": "LV",
+      "name": "LV Feeder 4 (Sendling/Pasing)",
+      "coordinates": {
+        "lat": 48.1240,
+        "lng": 11.5350
+      },
+      "metadata": {
+        "voltage_kv": 0.4,
+        "length_km": 0.7,
+        "capacity_kw": 400,
+        "from_asset": "trafo_4",
+        "description": "Low voltage feeder to Sendling and Pasing residential"
+      },
+      "path": [
+        {
+          "lat": 48.1260,
+          "lng": 11.5400
+        },
+        {
+          "lat": 48.1220,
+          "lng": 11.5300
+        }
+      ]
+    },
+    {
+      "id": "feeder_lv_5",
+      "type": "feeder_lv",
+      "subtype": "lv",
+      "voltage_level": "LV",
+      "name": "LV Feeder 5 (Bogenhausen/Haidhausen)",
+      "coordinates": {
+        "lat": 48.1300,
+        "lng": 11.6250
+      },
+      "metadata": {
+        "voltage_kv": 0.4,
+        "length_km": 0.6,
+        "capacity_kw": 400,
+        "from_asset": "trafo_5",
+        "description": "Low voltage feeder to Bogenhausen and Haidhausen residential"
+      },
+      "path": [
+        {
+          "lat": 48.1310,
+          "lng": 11.6200
+        },
+        {
+          "lat": 48.1290,
+          "lng": 11.6300
+        }
+      ]
+    },
+    {
+      "id": "cons_hosp_1",
+      "type": "consumer",
+      "subtype": "hospital",
+      "voltage_level": "LV",
+      "name": "Munich General Hospital",
+      "coordinates": {
+        "lat": 48.1595,
+        "lng": 11.5250
+      },
+      "metadata": {
+        "peak_load_mw": 10,
+        "voltage_kv": 0.4,
+        "sensitivity": "critical",
+        "priority": "high",
+        "description": "Critical load — high reliability required, near-constant demand"
+      }
+    },
+    {
+      "id": "cons_ind_1",
+      "type": "consumer",
+      "subtype": "data_center",
+      "voltage_level": "LV",
+      "name": "Data Center Munich",
+      "coordinates": {
+        "lat": 48.1760,
+        "lng": 11.5500
+      },
+      "metadata": {
+        "peak_load_mw": 18,
+        "voltage_kv": 0.4,
+        "sensitivity": "high",
+        "priority": "high",
+        "description": "Industrial steady load — minimal variation"
+      }
+    },
+    {
+      "id": "cons_res_1",
+      "type": "consumer",
+      "subtype": "residential",
+      "voltage_level": "LV",
+      "name": "Schwabing Residential",
+      "coordinates": {
+        "lat": 48.1700,
+        "lng": 11.5520
+      },
+      "metadata": {
+        "peak_load_mw": 5,
+        "voltage_kv": 0.4,
+        "sensitivity": "normal",
+        "priority": "standard",
+        "description": "Residential cluster — variable load, evening peak"
+      }
+    },
+    {
+      "id": "cons_res_2",
+      "type": "consumer",
+      "subtype": "residential",
+      "voltage_level": "LV",
+      "name": "Maxvorstadt Residential",
+      "coordinates": {
+        "lat": 48.1560,
+        "lng": 11.5800
+      },
+      "metadata": {
+        "peak_load_mw": 4.5,
+        "voltage_kv": 0.4,
+        "sensitivity": "normal",
+        "priority": "standard",
+        "description": "Residential cluster — variable load, evening peak"
+      }
+    },
+    {
+      "id": "cons_res_3",
+      "type": "consumer",
+      "subtype": "residential",
+      "voltage_level": "LV",
+      "name": "Maxvorstadt West Residential",
+      "coordinates": {
+        "lat": 48.1580,
+        "lng": 11.5750
+      },
+      "metadata": {
+        "peak_load_mw": 4,
+        "voltage_kv": 0.4,
+        "sensitivity": "normal",
+        "priority": "standard",
+        "description": "Residential cluster — variable load, evening peak"
+      }
+    },
+    {
+      "id": "cons_res_4",
+      "type": "consumer",
+      "subtype": "residential",
+      "voltage_level": "LV",
+      "name": "Sendling Residential",
+      "coordinates": {
+        "lat": 48.1230,
+        "lng": 11.5350
+      },
+      "metadata": {
+        "peak_load_mw": 4,
+        "voltage_kv": 0.4,
+        "sensitivity": "normal",
+        "priority": "standard",
+        "description": "Residential cluster — variable load, evening peak"
+      }
+    },
+    {
+      "id": "cons_res_5",
+      "type": "consumer",
+      "subtype": "residential",
+      "voltage_level": "LV",
+      "name": "Pasing Residential",
+      "coordinates": {
+        "lat": 48.1210,
+        "lng": 11.5280
+      },
+      "metadata": {
+        "peak_load_mw": 3.5,
+        "voltage_kv": 0.4,
+        "sensitivity": "normal",
+        "priority": "standard",
+        "description": "Residential cluster — variable load, evening peak"
+      }
+    },
+    {
+      "id": "cons_res_6",
+      "type": "consumer",
+      "subtype": "residential",
+      "voltage_level": "LV",
+      "name": "Bogenhausen Residential",
+      "coordinates": {
+        "lat": 48.1320,
+        "lng": 11.6250
+      },
+      "metadata": {
+        "peak_load_mw": 4.5,
+        "voltage_kv": 0.4,
+        "sensitivity": "normal",
+        "priority": "standard",
+        "description": "Residential cluster — variable load, evening peak"
+      }
+    },
+    {
+      "id": "cons_res_7",
+      "type": "consumer",
+      "subtype": "residential",
+      "voltage_level": "LV",
+      "name": "Haidhausen Residential",
+      "coordinates": {
+        "lat": 48.1280,
+        "lng": 11.6300
+      },
+      "metadata": {
+        "peak_load_mw": 5,
+        "voltage_kv": 0.4,
+        "sensitivity": "normal",
+        "priority": "standard",
+        "description": "Residential cluster — variable load, evening peak"
+      }
+    }
+  ],
+  "network": {
+    "edges": [
+      {
+        "source": "gen_solar_1",
+        "target": "line_hv_1"
+      },
+      {
+        "source": "line_hv_1",
+        "target": "sub_hv_mv_1"
+      },
+      {
+        "source": "gen_gas_1",
+        "target": "line_hv_2"
+      },
+      {
+        "source": "line_hv_2",
+        "target": "sub_hv_mv_1"
+      },
+      {
+        "source": "sub_hv_mv_1",
+        "target": "line_hv_3"
+      },
+      {
+        "source": "line_hv_3",
+        "target": "sub_hv_mv_2"
+      },
+      {
+        "source": "sub_hv_mv_1",
+        "target": "feeder_mv_1"
+      },
+      {
+        "source": "sub_hv_mv_1",
+        "target": "feeder_mv_2"
+      },
+      {
+        "source": "sub_hv_mv_1",
+        "target": "feeder_mv_3"
+      },
+      {
+        "source": "sub_hv_mv_2",
+        "target": "feeder_mv_4"
+      },
+      {
+        "source": "sub_hv_mv_2",
+        "target": "feeder_mv_5"
+      },
+      {
+        "source": "feeder_mv_1",
+        "target": "rmu_1"
+      },
+      {
+        "source": "feeder_mv_2",
+        "target": "rmu_2"
+      },
+      {
+        "source": "rmu_2",
+        "target": "rmu_3"
+      },
+      {
+        "source": "feeder_mv_3",
+        "target": "rmu_4"
+      },
+      {
+        "source": "rmu_4",
+        "target": "rmu_5"
+      },
+      {
+        "source": "feeder_mv_4",
+        "target": "rmu_6"
+      },
+      {
+        "source": "feeder_mv_5",
+        "target": "rmu_7"
+      },
+      {
+        "source": "rmu_1",
+        "target": "trafo_1"
+      },
+      {
+        "source": "rmu_3",
+        "target": "trafo_2"
+      },
+      {
+        "source": "rmu_4",
+        "target": "trafo_3"
+      },
+      {
+        "source": "rmu_6",
+        "target": "trafo_4"
+      },
+      {
+        "source": "rmu_7",
+        "target": "trafo_5"
+      },
+      {
+        "source": "trafo_1",
+        "target": "feeder_lv_1"
+      },
+      {
+        "source": "trafo_2",
+        "target": "feeder_lv_2"
+      },
+      {
+        "source": "trafo_3",
+        "target": "feeder_lv_3"
+      },
+      {
+        "source": "trafo_4",
+        "target": "feeder_lv_4"
+      },
+      {
+        "source": "trafo_5",
+        "target": "feeder_lv_5"
+      },
+      {
+        "source": "feeder_lv_1",
+        "target": "cons_hosp_1"
+      },
+      {
+        "source": "feeder_lv_2",
+        "target": "cons_ind_1"
+      },
+      {
+        "source": "feeder_lv_2",
+        "target": "cons_res_1"
+      },
+      {
+        "source": "feeder_lv_3",
+        "target": "cons_res_2"
+      },
+      {
+        "source": "feeder_lv_3",
+        "target": "cons_res_3"
+      },
+      {
+        "source": "feeder_lv_4",
+        "target": "cons_res_4"
+      },
+      {
+        "source": "feeder_lv_4",
+        "target": "cons_res_5"
+      },
+      {
+        "source": "feeder_lv_5",
+        "target": "cons_res_6"
+      },
+      {
+        "source": "feeder_lv_5",
+        "target": "cons_res_7"
+      }
+    ]
+  }
+}

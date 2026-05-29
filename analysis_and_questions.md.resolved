@@ -1,0 +1,115 @@
+# Open Energy Grid Explorer — Document Analysis & Clarification Questions
+
+## ✅ Confirmed Understanding
+
+### Scope
+- **Single mock city** with a small, fixed set of assets — NOT a real GIS dataset
+- A **visual exploration tool** (digital twin prototype), not a physics-accurate simulator
+- No auth, no SCADA, no cloud, no paid APIs, no complex power flow math
+
+### Tech Stack (LOCKED)
+| Layer | Technology |
+|---|---|
+| Frontend | React (Vite) |
+| Map | Leaflet + OpenStreetMap tiles |
+| Styling | Tailwind CSS + Lucide Icons |
+| State | TanStack Query + Context API |
+| Backend | FastAPI (Python 3.10+) |
+| Data Store | JSON-based local storage |
+| Simulation | Custom Python script |
+| Charts | Recharts |
+
+### Data Model — Assets
+| Asset Type | Count | Key Attributes |
+|---|---|---|
+| Solar Farm | 1 | 50 MW, variable (time-of-day) |
+| Gas Turbine (CCGT) | 1 | 150 MW, constant/stable |
+| Transmission Lines | 3–5 | 110 kV, thick orange lines |
+| Substations | 2 | Step-down 110kV → 11kV |
+| Distribution Feeders | (implied) | 11 kV, thin blue lines |
+| Hospital (Critical) | 1 | High priority |
+| Data Center (Industrial) | 1 | Steady high load |
+| Residential (Neighborhood) | 4–8 | Variable, evening peak |
+| **Total consumers** | **6–10** | Mixed types |
+
+### Simulation Engine
+- Updates every **5 seconds**
+- Data points per asset: **V, I, P, Q**
+- Patterns: Diurnal cycles (solar output, residential load)
+- Elastic rebalancing when solar drops (simplified)
+
+### API Endpoints
+| Endpoint | Purpose |
+|---|---|
+| `GET /assets` | List all assets with coordinates |
+| `GET /assets/{id}` | Detailed metadata for one asset |
+| `GET /assets/{id}/metrics` | Latest values + last 1 hour history |
+| `GET /network` | Adjacency list of connections |
+
+### Frontend (Phase 2 — deferred)
+- Full-screen Leaflet map, dark theme
+- Layer control: High Voltage vs Low Voltage toggle
+- Side panel on asset click: properties, live chart, connection breadcrumbs
+
+### Development Order
+1. Backend foundations (JSON data model + FastAPI skeleton)
+2. Simulation mock (engine pushing fake data)
+3. Map integration (deferred — frontend)
+4. Interaction layer (deferred — frontend)
+5. Final polish (deferred — frontend)
+
+---
+
+## ❓ Clarification Questions
+
+### Data Model
+
+**1. Mock city coordinates — which city to use?**
+The PRD says "one mock city" but doesn't specify which. Options:
+- **(a)** Use a real city's coordinates (e.g., Berlin, Munich, or a generic European city) so the map looks realistic with real OSM tiles
+- **(b)** Use completely fictional coordinates
+
+> [!IMPORTANT]
+> Using a real city makes the demo far more compelling. I'd suggest a German city given your previous projects, but need your preference.
+
+**2. Distribution feeder lines — are they separate assets?**
+The architecture mentions "feeder lines" connecting substations to consumers. The PRD lists transmission lines (3–5) but doesn't explicitly list distribution/feeder lines as counted assets. Should feeder lines:
+- **(a)** Be modeled as separate assets with their own IDs and metrics (like transmission lines)
+- **(b)** Be implied connections only (rendered visually but not inspectable)
+
+**3. Consumer count — exact number?**
+The PRD says "6–10 consumers." To keep scope tight, should I pick a fixed number? I'd suggest **8 consumers** (1 hospital, 1 data center, 6 residential neighborhoods) unless you have a preference.
+
+### Simulation
+
+**4. Metrics for non-generator assets — what exactly?**
+The simulation tracks V, I, P, Q for "every asset." For **transmission lines** and **substations**, should these be:
+- **(a)** Input/output values (e.g., a substation has input V=110kV, output V=11kV)
+- **(b)** Single-point values (e.g., just current flow through the line)
+
+**5. "Elastic rebalancing" — how simplified?**
+When solar drops at night, the architecture says the gas turbine compensates. Should this be:
+- **(a)** Simple: Total generation always equals total load (gas turbine output = total load − solar output)
+- **(b)** Per-feeder: Each consumer's supply source shifts proportionally
+
+> [!TIP]
+> Option (a) is straightforward and matches the "not a physics simulator" scope. Recommend (a).
+
+### API
+
+**6. Metrics history — in-memory only?**
+The `/assets/{id}/metrics` endpoint returns "last 1 hour" of data. Since there's no database, this will be an **in-memory rolling buffer** (720 data points at 5s intervals). Data resets on server restart. Is that acceptable?
+
+**7. CORS configuration — any specific origins?**
+The React frontend (Vite dev server, typically `localhost:5173`) will call the FastAPI backend (`localhost:8000`). I'll configure CORS accordingly. Any other origins needed?
+
+---
+
+## 📋 Summary — What I Will Build (Backend Only, Phase 1)
+
+1. **JSON data model**: All assets defined in a static JSON file with IDs, types, coordinates, metadata, and connections
+2. **FastAPI app** with the 4 endpoints listed above
+3. **Simulation engine**: Background task generating realistic V/I/P/Q values every 5s with diurnal patterns, stored in an in-memory rolling buffer
+4. **Network graph**: Adjacency list representing the full generation → transmission → substation → distribution → consumer chain
+
+Awaiting your answers before creating the implementation plan.
